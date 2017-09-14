@@ -1,6 +1,6 @@
 <template>
-  <div class="twitter">
-    <span>Twitter Panel</span>
+  <div class="footer">
+    <span>Footer</span>
   </div>
 </template>
 

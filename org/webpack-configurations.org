@@ -98,7 +98,8 @@ NOTE: I'll have to figure out how to tangle JavaScript into the files. Maybe pre
     },
     plugins: [
       new CopyWebpackPlugin([
-        { from: './src/*.html', to: './[name].[ext]' }
+        { from: './src/*.html', to: './[name].[ext]' },
+        { from: './src/**/schedule*.csv', to: './[name].[ext]' }
       ])
     ],
     resolve: {
