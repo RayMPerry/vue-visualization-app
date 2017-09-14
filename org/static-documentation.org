@@ -10,7 +10,6 @@
  .DS_Store
  dist/
  yarn-error.log
- #*#
  #+END_SRC
 
 ** README

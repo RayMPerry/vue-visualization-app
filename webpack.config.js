@@ -8,7 +8,7 @@ var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/app.js',
   module: {
     rules: [
       {
@@ -23,12 +23,6 @@ module.exports = {
           },
           {
             loader: 'postcss-loader',
-            options: {
-              parser: 'postcss-scss',
-              plugins: (loader) => [
-                require('precss')
-              ]
-            }
           }
         ]
       },
@@ -37,6 +31,7 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           loaders: {
+            'js': 'babel-loader',
             'scss': 'vue-style-loader!css-loader!sass-loader',
             'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
           }
@@ -48,6 +43,7 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           appendTsSuffixTo: [/\.vue$/],
+          transpileOnly: true
         }
       },
       {
@@ -61,7 +57,7 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin([
-      { from: './src/views/*.html', to: './[name].[ext]' }
+      { from: './src/*.html', to: './[name].[ext]' }
     ])
   ],
   resolve: {

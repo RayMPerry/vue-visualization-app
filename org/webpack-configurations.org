@@ -49,7 +49,7 @@ NOTE: I'll have to figure out how to tangle JavaScript into the files. Maybe pre
   var CopyWebpackPlugin = require('copy-webpack-plugin');
 
   module.exports = {
-    entry: './src/index.js',
+    entry: './src/app.js',
     module: {
       rules: [
         {
@@ -64,12 +64,6 @@ NOTE: I'll have to figure out how to tangle JavaScript into the files. Maybe pre
             },
             {
               loader: 'postcss-loader',
-              options: {
-                parser: 'postcss-scss',
-                plugins: (loader) => [
-                  require('precss')
-                ]
-              }
             }
           ]
         },
@@ -78,6 +72,7 @@ NOTE: I'll have to figure out how to tangle JavaScript into the files. Maybe pre
           loader: 'vue-loader',
           options: {
             loaders: {
+              'js': 'babel-loader',
               'scss': 'vue-style-loader!css-loader!sass-loader',
               'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
             }
@@ -89,6 +84,7 @@ NOTE: I'll have to figure out how to tangle JavaScript into the files. Maybe pre
           exclude: /node_modules/,
           options: {
             appendTsSuffixTo: [/\.vue$/],
+            transpileOnly: true
           }
         },
         {
@@ -102,7 +98,7 @@ NOTE: I'll have to figure out how to tangle JavaScript into the files. Maybe pre
     },
     plugins: [
       new CopyWebpackPlugin([
-        { from: './src/views/*.html', to: './[name].[ext]' }
+        { from: './src/*.html', to: './[name].[ext]' }
       ])
     ],
     resolve: {
@@ -148,15 +144,19 @@ module.exports = {
 }
 #+END_SRC
 
+* .babelrc
+#+BEGIN_SRC text :tangle ../.babelrc
+{
+  "presets": ["es2015"],
+  "plugins": ["transform-object-rest-spread"]
+}
+#+END_SRC
+
 * PostCSS
 #+BEGIN_SRC javascript :tangle (concat output-dir-with-slash "postcss.config.js")
   module.exports = {
-    parser: 'sugarss',
-    plugins: {
-      'postcss-import': {},
-      'postcss-cssnext': {},
-      'autoprefixer': {},
-      'cssnano': {}
-    }
+    plugins: [
+      require('precss')()
+    ]
   }
 #+END_SRC
