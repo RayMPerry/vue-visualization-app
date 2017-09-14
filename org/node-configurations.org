@@ -1,0 +1,34 @@
+#+TITLE: Node.js and NPM configurations
+#+AUTHOR: Ray Perry
+#+EMAIL: rperry@pmmimediagroup.com
+
+* Foreword
+** On Express vs. Hapi
+Personally, I enjoy using Express for small-to-moderate projects. However, if we decide to use more enterprise-level things, we should use Hapi. It's easier to harden (re: security) and is more compartmentalized. 
+
+* Express
+** Server configuration
+#+BEGIN_SRC javascript :tangle ../server.js
+const express = require('express');
+const app = express();
+
+// Port checking and setup.
+let port = process.env.PORT ? process.env.PORT : 6464;
+port = app.set('port', port).get('port');
+
+const rootRoute = (req, res) => {
+  res.send('dist/index.html');
+};
+
+const postServerConfiguration = () => {
+  console.log(`Media Center running on port ${port}!`);
+};
+
+// Set up static directories.
+app.use(express.static('dist'));
+app.use(express.static('assets'));
+
+// Begin assignment.
+app.get('/', rootRoute);
+app.listen(port, postServerConfiguration);
+#+END_SRC
