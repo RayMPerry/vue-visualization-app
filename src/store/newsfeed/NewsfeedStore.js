@@ -1,7 +1,7 @@
 import {
   NEWSFEED_GET_ITEMS,
   NEWSFEED_NEXT_ITEM
-} as '../mutation-types';
+} from '../mutation-types';
 
 const state = {
   newsfeedItems: [],
