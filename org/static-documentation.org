@@ -5,46 +5,60 @@
 
 * Root Documentation
 ** .gitignore
- #+BEGIN_SRC text :tangle ../.gitignore
- node_modules/
- .DS_Store
- dist/
- yarn-error.log
- #+END_SRC
+#+BEGIN_SRC text :noweb yes :tangle ../.gitignore
+<<no-emacs-version>>
+#+END_SRC
+
+#+NAME: no-emacs-version
+#+BEGIN_SRC text 
+node_modules/
+.DS_Store
+dist/
+yarn-error.log
+#+END_SRC
+
+#+NAME: emacs-version
+#+BEGIN_SRC text
+*.*
+!org/
+!src/
+!*.json
+#+END_SRC
 
 ** README
- #+BEGIN_SRC text :tangle ../README.md
- # Media Center
+#+BEGIN_SRC text :tangle ../README.md
+# Media Center
 
- ## Foreword
- Media Center is a web server that displays interactive tiles and panels for large displays. This originally supposed to be spun up during Pack Expo and other events.
+## Foreword
+Media Center is a web server that displays interactive tiles and panels for large displays. This originally supposed to be spun up during Pack Expo and other events.
 
- ## Introduction
+## Introduction
 
- ### Abstract
- After the server starts up, we rebuild the cache/database from a file and serve the webpage and its data back to the main view.
+### Abstract
+After the server starts up, we rebuild the cache/database from a file and serve the webpage and its data back to the main view.
 
- This project is built on a few technologies:
- - [Node.js](http://nodejs.org)
- - [TypeScript](http://typescriptlang.org)
- - [Webpack](https://webpack.js.org/)
- - Vue.js ecosystem ([Vue](http://vuejs.org), [Vuex](https://vuex.vuejs.org/en/), [Vue-Router](https://router.vuejs.org/en/))
- - A transition library
+This project is built on a few technologies:
+- [Node.js](http://nodejs.org)
+- [TypeScript](http://typescriptlang.org)
+- [Webpack](https://webpack.js.org/)
+- Vue.js ecosystem ([Vue](http://vuejs.org), [Vuex](https://vuex.vuejs.org/en/), [Vue-Router](https://router.vuejs.org/en/))
+- A transition library
 
- ## Getting started
- ```
- git clone <repo>
- npm install
- npm start
- ```
+## Getting started
+```
+git clone <repo>
+npm install
+npm start
+```
 
- ## Troubleshooting
+## Troubleshooting
 
- ## Contact info
- #+END_SRC
+## Contact info
+#+END_SRC
+
 * Specific Documentation
 ** DEV-README
-#+BEGIN_SRC text :tangle DEV-README.md
+#+BEGIN_SRC text :tangle README.md
 # To the next dev:
 
 Hello, friend!

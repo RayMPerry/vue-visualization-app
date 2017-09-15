@@ -4,7 +4,7 @@
 
 * Time spent on this project
 #+BEGIN: clocktable :maxlevel 2 :scope subtree
-#+CAPTION: Clock summary at [2017-09-14 Thu 14:21]
+#+CAPTION: Clock summary at [2017-09-15 Fri 10:09]
 | Headline                   | Time    |       |
 |----------------------------+---------+-------|
 | *Total time*               | *20:37* |       |
@@ -16,6 +16,10 @@
 | \_  Firefighting           |         |  1:54 |
 #+END:
 
+** Communicating
+   :LOGBOOK:
+   CLOCK: [2017-09-15 Fri 10:52]--[2017-09-15 Fri 11:34] =>  0:42
+   :END:
 ** Lunch/Breaks
    :LOGBOOK:
    CLOCK: [2017-09-14 Thu 00:59]--[2017-09-14 Thu 01:07] =>  0:08
@@ -41,6 +45,8 @@
    :END:
 ** Core Functionality
    :LOGBOOK:
+   CLOCK: [2017-09-15 Fri 10:48]--[2017-09-15 Fri 10:48] =>  0:00
+   CLOCK: [2017-09-15 Fri 10:09]--[2017-09-15 Fri 10:12] =>  0:03
    CLOCK: [2017-09-14 Thu 13:21]--[2017-09-14 Thu 14:21] =>  1:00
    CLOCK: [2017-09-14 Thu 11:37]--[2017-09-14 Thu 12:54] =>  1:17
    CLOCK: [2017-09-14 Thu 08:14]--[2017-09-14 Thu 09:06] =>  0:52
@@ -55,7 +61,18 @@
    CLOCK: [2017-09-14 Thu 10:17]--[2017-09-14 Thu 11:37] =>  1:20
    CLOCK: [2017-09-14 Thu 09:11]--[2017-09-14 Thu 09:45] =>  0:34
    :END:
+** Cleanup/Refactor
+   :LOGBOOK:
+   CLOCK: [2017-09-15 Fri 11:34]
+   CLOCK: [2017-09-15 Fri 10:49]--[2017-09-15 Fri 10:52] =>  0:03
+   CLOCK: [2017-09-15 Fri 10:12]--[2017-09-15 Fri 10:20] =>  0:08
+   :END:
+** Meetings
+   :LOGBOOK:
+   CLOCK: [2017-09-15 Fri 10:14]--[2017-09-15 Fri 10:48] =>  0:34
+   :END:
 
 * Notes   
-<2017-09-14 Thu>: Going downstairs to exercise. Was writing changes to the ScheduleStore and making the CSV file an action.
-<2017-09-14 Thu>: It didn't go as planned. Back to it.
+<2017-09-14 Thu>: Writing changes to the ScheduleStore and making the CSV file an action.
+<2017-09-15 Fri>: Starting cleanup on all files. 
+<2017-09-15 Fri>: New CSV format for the data.
