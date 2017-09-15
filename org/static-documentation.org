@@ -20,6 +20,7 @@ yarn-error.log
 #+NAME: emacs-version
 #+BEGIN_SRC text
 *.*
+!README.md
 !org/
 !src/
 !*.json
@@ -61,10 +62,9 @@ npm start
 #+BEGIN_SRC text :tangle README.md
 # To the next dev:
 
-Hello, friend!
-If you're reading this, congratulations! You've earned a crash course into Emacs and Org-Mode. You never wanted it but you got it anyway.
+Hello, friend! If you're reading this, congratulations! You've earned a crash course into Emacs and Org-Mode. You never wanted it but you got it anyway.
 
-I'd like to take this time and explain this directory to you. This is the underground brain of the repository. I am a die-hard emacsen (someone who uses Emacs) and all of these .org files are alive. Each one is an example of literate programming and if you're reading this in Emacs, these code blocks should be doing all sorts of stuff right now. Activating `org-babel-tangle` on these files will rebuild the documentation across the repo. The Webpack configurations are also in there and are the reason I'm writing this README.
+I'd like to take this time and explain this directory to you. This is the underground brain of the repository. I am a die-hard Emacs user and all of these .org files are alive. Each one is an example of literate programming and if you're reading this in Emacs, these code blocks should be doing all sorts of stuff right now. Activating `org-babel-tangle` on these files will rebuild the documentation across the repo. The Webpack configurations are also in there and are the reason I'm writing this README. At some point, I'd like to write scripts that run Emacs in `--batch` mode but, that's for another time.
 
 Few rules about Lisp:
 - Everything is a list. This means your code is your prose and vice-versa.

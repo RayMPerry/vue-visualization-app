@@ -4,16 +4,19 @@
 
 * Time spent on this project
 #+BEGIN: clocktable :maxlevel 2 :scope subtree
-#+CAPTION: Clock summary at [2017-09-15 Fri 10:09]
+#+CAPTION: Clock summary at [2017-09-15 Fri 12:38]
 | Headline                   | Time    |       |
 |----------------------------+---------+-------|
-| *Total time*               | *20:37* |       |
+| *Total time*               | *23:10* |       |
 |----------------------------+---------+-------|
-| Time spent on this project | 20:37   |       |
+| Time spent on this project | 23:10   |       |
+| \_  Communicating          |         |  0:42 |
 | \_  Lunch/Breaks           |         |  1:00 |
 | \_  Bootstrapping          |         | 10:29 |
-| \_  Core Functionality     |         |  7:14 |
+| \_  Core Functionality     |         |  7:17 |
 | \_  Firefighting           |         |  1:54 |
+| \_  Cleanup/Refactor       |         |  1:14 |
+| \_  Meetings               |         |  0:34 |
 #+END:
 
 ** Communicating
@@ -63,7 +66,8 @@
    :END:
 ** Cleanup/Refactor
    :LOGBOOK:
-   CLOCK: [2017-09-15 Fri 11:34]
+   CLOCK: [2017-09-15 Fri 11:50]--[2017-09-15 Fri 12:37] =>  0:47
+   CLOCK: [2017-09-15 Fri 11:34]--[2017-09-15 Fri 11:50] =>  0:16
    CLOCK: [2017-09-15 Fri 10:49]--[2017-09-15 Fri 10:52] =>  0:03
    CLOCK: [2017-09-15 Fri 10:12]--[2017-09-15 Fri 10:20] =>  0:08
    :END:
