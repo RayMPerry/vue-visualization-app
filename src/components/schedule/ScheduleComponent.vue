@@ -1,11 +1,11 @@
 <template>
   <div class="schedule">
     <div class="event" v-for="event in schedule" v-if="isEventToday(event[0])">
-      <p class="event-date" v-text="scheduleFields[0] + ': ' + event[0]"></p>
-      <p class="event-time" v-text="scheduleFields[1] + ': ' + event[1]"></p>
-      <p class="event-details" v-text="scheduleFields[2] + ': ' + event[2]"></p>
-      <p class="event-presenter" v-text="scheduleFields[3] + ': ' + event[3]"></p>
-      <p class="event-location" v-text="scheduleFields[4] + ': ' + event[4]"></p>
+        <p class="event-time">
+          <span class="event-begin-time" v-text="formatTime(event[1])"></span> - <span class="event-end-time" v-text="formatTime(event[2])"></span>
+          <span class="event-details" v-text="event[3]"></span> (<span class="event-company" v-text="event[5]"></span>).
+            <span class="event-location" v-text="formatLocation(event[6])"></span>
+        </p>
     </div>
   </div>
 </template>
@@ -13,33 +13,63 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import * as types from '../../store/mutation-types';
+import * as constants from '../../constants';
 
 export default {
   computed: {
     ...mapState({
+      currentDay: ({ MediaDashboardStore }) => MediaDashboardStore.currentDay,
       schedule: ({ ScheduleStore }) => ScheduleStore.schedule,
       scheduleFields: ({ ScheduleStore }) => ScheduleStore.scheduleFields,
-      eventStartDate: ({ MediaDashboardStore }) => MediaDashboardStore.startDate
-    })
+      eventStartMonth: ({ MediaDashboardStore }) => MediaDashboardStore.startMonth,
+      eventStartDay: ({ MediaDashboardStore }) => MediaDashboardStore.startDay,
+      eventStartYear: ({ MediaDashboardStore }) => MediaDashboardStore.startYear
+    }),
+    eventStartDate () {
+      return [
+        this.eventStartMonth,
+        this.eventStartDay,
+        this.eventStartYear
+      ].join('/');
+    }
   },
   methods: {
+    formatTime (timeToFormat) {
+      let tempTime = timeToFormat.split(':');
+      const tempHours = parseInt(tempTime[0]);
+      if (tempHours > 12) {
+        tempTime[0] = ('0' + (tempHours - 12)).slice(-2);
+        tempTime[1] += 'pm'; 
+      } else {
+        tempTime[1] += 'am';
+      }
+      return tempTime.join(':');
+    },
+    formatLocation (locationToFormat) {
+      const hcpRegex = /Healthcare Packaging EXPO$/gi;
+      let tempLocation = locationToFormat.replace(hcpRegex, '').replace('|', '');
+      return tempLocation;
+    },
     isEventToday (eventDate) {
-      if (eventDate.indexOf(this.eventStartDate) > -1) {
-        return true;
-      } 
-
-      return false;
+      return (eventDate.indexOf(this.currentDay) > -1) ? true : false;
     },
     ...mapMutations({
-      changeDate: types.ADMIN_CHANGE_DATE
+      changeDate: types.ADMIN_CHANGE_DATE,
+      modifySchedule: types.SCHEDULE_MODIFY,
+      buildDayArray: types.MEDIA_DASHBOARD_BUILD_LONG_TEXT
     }),
     ...mapActions({
-      refreshSchedule: 'getCurrentSchedule'
+      refreshSchedule: types.SCHEDULE_GET_CURRENT_SCHEDULE
     })
   },
   mounted () {
     this.refreshSchedule();
-    this.changeDate('Mon. Sep. 25');
+    this.changeDate({date: '09/25/2017', origin: true});
+    const tempMonth = this.eventStartMonth - 1;
+    const tempDay = parseInt(this.eventStartDay) + 2;
+    let tempLongDay = new Date(this.eventStartYear, tempMonth, tempDay).getDay();
+    tempLongDay = constants.daysOfWeek[tempLongDay];
+    this.buildDayArray(['Today', 'Tomorrow', tempLongDay]);
   }
 }
 </script>
@@ -47,16 +77,23 @@ export default {
 <style>
 .schedule {
     .event {
-        background: #9933ff;
-        padding: 5px;
-        margin-bottom: 5px;
+        padding: 0 20px;
+        font-size: 26px;
         
         &-date,
-        &-time,
-        &-details,
-        &-presenter,
         &-location {
             margin: 0;
+            font-style: italic;
+        }
+
+        &-begin-time,
+        &-end-time {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        &-end-time {
+            padding-right: 10px;
         }
     }
 }

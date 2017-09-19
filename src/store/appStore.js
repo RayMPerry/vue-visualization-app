@@ -1,4 +1,3 @@
-// import {} from './mutation-types';
 import Vue from 'vue';
 import Vuex from 'vuex';
 

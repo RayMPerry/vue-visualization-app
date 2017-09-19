@@ -1,5 +1,6 @@
 <template>
   <div :class="currentLayout">
+    <footer-component></footer-component>
     <div class="one">
       <schedule-component></schedule-component>
     </div>
@@ -9,12 +10,12 @@
     <div class="three">
       <newsfeed-component></newsfeed-component>
     </div>
-    <footer-component></footer-component>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import * as types from '../../store/mutation-types';
 
 import ScheduleComponent from '../schedule/ScheduleComponent.vue';
 import NewsfeedComponent from '../newsfeed/NewsfeedComponent.vue';
@@ -24,7 +25,8 @@ import FooterComponent from '../footer/FooterComponent.vue';
 export default {
   computed: {
     ...mapState({
-      layout: ({ MediaDashboardStore }) => MediaDashboardStore.layout
+      layout: ({ MediaDashboardStore }) => MediaDashboardStore.layout,
+      currentIntervalDifference: ({ MediaDashboardStore }) => MediaDashboardStore.currentIntervalDifference
     }),
     currentLayout () {
       const classObject = {
@@ -36,6 +38,25 @@ export default {
       return classObject;
     }
   },
+  methods: {
+    ...mapMutations({
+      getTime: types.ADMIN_GET_TIME
+    })
+  },
+  mounted () {
+    const self = this;
+
+    // This initializes the time.
+    self.getTime();
+    window.setTimeout(function () {
+      // Refresh the time
+      self.getTime();
+      // Get the time every minute.
+      window.setInterval(self.getTime, 60000);
+    }, self.currentIntervalDifference);
+
+    
+  },
   components: {
     ScheduleComponent,
     NewsfeedComponent,
@@ -46,15 +67,23 @@ export default {
 </script>
 
 <style>
+$headline-fonts: 'Roboto', sans-serif;
+$body-fonts: 'Open Sans', sans-serif;
+
+$twitter-color: #55acee;
+$footer-color: #00b0de;
+
 * {
+    /* background: rgba(0,0,0,0.1) !important; */
     box-sizing: border-box;
 }
 
 html,
 body {
-    background: black;
-    color: white;
-
+    background: white;
+    color: black;
+    font-family: $body-fonts;
+    
     width: 100%;
     height: 100%;
     margin: 0;
@@ -65,11 +94,6 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-
-    $panel1-color: red;
-    $panel2-color: blue;
-    $panel3-color: green;
-    $footer-color: black;
     
     .one,
     .two,
@@ -77,36 +101,46 @@ body {
     .footer {
         position: absolute;
         display: block;
-        padding: 5px;
         overflow: hidden;
+    }
+    
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 
     &.layout1 {
         position: relative;
         
         .one {
-            background: $panel1-color;
+            top: 10%;
             left: 0;
             width: 75%;
             height: 75%;
+            border-right: 1px solid #eee;
         }
         .two {
-            background: $panel2-color;
+            top: 10%;
             right: 0;
             width: 25%;
             height: 90%;
+            background: #aaa;
         }
         .three {
-            background: $panel3-color;
-            top: 75%;
+            top: 90%;
             width: 75%;
-            height: 15%;
+            height: 10%;
         }
         .footer {
             background: $footer-color;
-            bottom: 0;
+            color: white;
+            top: 0;
             width: 100%;
             height: 10%;
+            padding: 0 20px;
+            vertical-align: middle;
         }
     }
 
