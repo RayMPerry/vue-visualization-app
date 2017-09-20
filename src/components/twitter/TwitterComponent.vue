@@ -18,6 +18,7 @@
 
 <script>
   import { mapState, mapMutations, mapActions } from 'vuex';
+  import axios from 'axios';
   import io from 'socket.io-client';
 import * as types from '../../store/mutation-types';
 
@@ -35,10 +36,15 @@ export default {
       addTweet: types.TWITTER_ADD_TWEET
     })
   },
-  mounted () {
+  created () {
     const socket = io(socketHost + ':' + socketPort);
     socket.on('action', action => {
       this.addTweet(action.data);
+    });
+  },
+  mounted () {
+    axios.get('/twitter').then(response => {
+      console.log(response);
     });
   }
   

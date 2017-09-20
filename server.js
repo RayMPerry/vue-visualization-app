@@ -36,19 +36,22 @@ const T = new Twit({
   access_token_secret: 'uVIwQ9APJ2Be8S7mDNc6UGFNymh2N7EkTR3Dg7qOiG2aT'
 });
 
-const twitterKeywordsToFollow = [
+const twitterHandlesToFollow = [
   '@packagingworld',
   '@Packcentric',
   '@PackagingDr',
   '@packagingtrends',
   '@healthcarepkg',
-  '@RaycatRakittra',
+  '@RaycatRakittra'
+];
+
+const twitterKeywordsToFollow = [
   '#packexpo',
   '#hcpexpo'
 ];
 
 const tweetStream = T.stream('statuses/filter', {
-  track: [...twitterKeywordsToFollow]
+  track: [...twitterHandlesToFollow, ...twitterKeywordsToFollow]
 });
 
 const newsfeedFile = path.join(__dirname + `/dist/newsfeed${year}.csv`);
@@ -72,14 +75,28 @@ const scheduleRoute = (req, res) => {
   res.sendFile(scheduleFile);
 };
 
+const twitterRoute = (req, res) => {
+  twitterHandlesToFollow.map(handle => {
+    T.get('statuses/user_timeline', {
+      screen_name: handle
+    }, (err, tweets, resp) => {
+      if (err) console.log(err);
+      socketServer.emit('action', {
+        type: 'tweet',
+        data: tweets[0]
+      });
+    });
+  });
+  res.status(200).end();
+};
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const uploadRoute = (req, res) => {
   if (req.file) {
     fs.readFile(req.file.path, (err, data) => {
-    let whichFile = (req.file.filename.indexOf('schedule') > -1) ? scheduleFile : newsfeedFile;  
-    fs.writeFile(whichFile, data, (err) => {
+      let whichFile = (req.file.filename.indexOf('schedule') > -1) ? scheduleFile : newsfeedFile;  
+      fs.writeFile(whichFile, data, (err) => {
         console.log(err);
         console.log(`File written to ./${req.file.filename}`);
         res.status(201).send(whichFile);
@@ -109,6 +126,7 @@ app.use(express.static('assets'));
 app.post('/uploadSchedule', scheduleUpload, uploadRoute);
 app.post('/uploadFactoids', factoidsUpload, uploadRoute);
 
+app.get('/twitter', twitterRoute);
 app.get('/schedule', scheduleRoute);
 app.get('/newsfeed', newsfeedRoute);
 app.get('*', rootRoute);
