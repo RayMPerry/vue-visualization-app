@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" mode="out-in">
     <div class="schedule" v-if="schedule" :key="currentDate">
-      <div class="event" v-for="(event, index) in currentSchedule" :key="index">
+      <div class="event" v-for="(event, index) in schedule[currentDate]" :key="index">
         <p class="event-time">
           <span class="event-begin-time" v-text="formatTime(event[1])"></span> - <span class="event-end-time" v-text="formatTime(event[2])"></span>
           <span class="event-details" v-text="event[3]"></span> (<span class="event-company" v-text="event[5]"></span>).
@@ -37,20 +37,20 @@ export default {
     },
     currentDate () {
      return [
-        this.eventStartMonth,
+        parseInt(this.eventStartMonth),
         parseInt(this.eventStartDay) + this.currentDayOffset,
         this.eventStartYear
       ].join('/');
-    },
-    currentSchedule () {
+    }
+  },
+  methods: {
+    getCurrentSchedule () {
       if (this.schedule) {
         return this.schedule[this.currentDate];
       } else {
         return false;
       }
-    }
-  },
-  methods: {
+    },
     formatTime (timeToFormat) {
       let tempTime = timeToFormat.split(':');
       const tempHours = parseInt(tempTime[0]);
@@ -81,7 +81,7 @@ export default {
   },
   created () {
     this.refreshSchedule();
-    this.changeDate({date: '09/25/2017', origin: true});
+    this.changeDate({date: '09/25/17', origin: true});
     const tempMonth = this.eventStartMonth - 1;
     const tempDay = parseInt(this.eventStartDay) + 2;
     let tempLongDay = new Date(this.eventStartYear, tempMonth, tempDay).getDay();
