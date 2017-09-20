@@ -32,7 +32,7 @@ Personally, I enjoy using Express for small-to-moderate projects. However, if we
       cb(null, `dist/`);
     },
     filename: (req, file, cb) => {
-      cb(null, `factoids${year}.csv`);
+      cb(null, `newsfeed${year}.csv`);
     }
   });
 
@@ -41,6 +41,10 @@ Personally, I enjoy using Express for small-to-moderate projects. However, if we
 
   const Twit = require('twit');
   const T = new Twit({
+    consumer_key: '2kr6lXC96b1efCzbP0V8ww7yx',
+    consumer_secret: 'YE937gZL82c2iOAYvNTbMNSAOmWzGIDUq2zE0SGToe77nXHiFc',
+    access_token: '1300929438-FXy4NqZUlkT1Ft5Xk11ZvPTQ4cMkK1QkQ1fpV0i',
+    access_token_secret: 'uVIwQ9APJ2Be8S7mDNc6UGFNymh2N7EkTR3Dg7qOiG2aT'
   });
 
   const twitterKeywordsToFollow = [

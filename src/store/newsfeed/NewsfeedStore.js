@@ -23,7 +23,7 @@ const mutations = {
   [NEWSFEED_SET_ITEM_INDEX] (state) {
     state.currentItemIndex++;
     
-    if (state.currentItemIndex >= state.newsfeedItems.length - 1) {
+    if (state.currentItemIndex >= state.newsfeedItems.length) {
       state.currentItemIndex = 0;
     }
   },
@@ -37,6 +37,7 @@ const actions = {
       .then(csvFile => {
         Papa.parse(csvFile.data, {
           complete: (results) => {
+            console.log(results);
             commit(NEWSFEED_SET_NEW_ITEMS, results.data);
             commit(NEWSFEED_REFRESH_CURRENT_ITEM);
           }

@@ -21,7 +21,7 @@ const factoidsStorage = multer.diskStorage({
     cb(null, `dist/`);
   },
   filename: (req, file, cb) => {
-    cb(null, `factoids${year}.csv`);
+    cb(null, `newsfeed${year}.csv`);
   }
 });
 
