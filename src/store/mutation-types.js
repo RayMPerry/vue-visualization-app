@@ -10,6 +10,8 @@ export const MEDIA_DASHBOARD_BUILD_LONG_TEXT = 'MediaDashboard/BUILD_LONG_TEXT';
 export const SCHEDULE_GET_CURRENT_SCHEDULE = 'ScheduleComponent/GET_CURRENT_SCHEDULE';
 export const SCHEDULE_REFRESH = 'ScheduleComponent/REFRESH';
 export const SCHEDULE_MODIFY = 'ScheduleComponent/MODIFY';
+export const SCHEDULE_UPDATE_SCHEDULE = 'ScheduleComponent/UPDATE_SCHEDULE';
+export const SCHEDULE_UPDATE_FACTOIDS = 'ScheduleComponent/UPDATE_FACTOIDS';
 
 export const NEWSFEED_NEXT_ITEM = 'NewsfeedComponent/NEXT_ITEM';
 export const NEWSFEED_GET_ITEMS = 'NewsfeedComponent/GET_ITEMS';

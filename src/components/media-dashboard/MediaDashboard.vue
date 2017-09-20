@@ -90,6 +90,14 @@ body {
     padding: 0;
 }
 
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+                       
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+    
 .media-dashboard {
     position: relative;
     width: 100%;
@@ -103,13 +111,6 @@ body {
         display: block;
         overflow: hidden;
     }
-    
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
 
     &.layout1 {
         position: relative;
@@ -119,7 +120,6 @@ body {
             left: 0;
             width: 75%;
             height: 75%;
-            border-right: 1px solid #eee;
         }
         .two {
             top: 10%;
@@ -132,9 +132,12 @@ body {
             top: 90%;
             width: 75%;
             height: 10%;
+            background: #54C0A0;
         }
         .footer {
             background: $footer-color;
+            background: -moz-linear-gradient(left, #00b0de 0%,#006c87 78%,#006c87 100%); 
+            background: -webkit-linear-gradient(left, #00b0de 0%,#006c87 78%,#006c87 100%); 
             color: white;
             top: 0;
             width: 100%;

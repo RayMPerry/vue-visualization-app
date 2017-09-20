@@ -1,11 +1,13 @@
 <template>
   <div class="footer" @click="nextDay()">
+    <transition name="fade" mode="out-in">
       <h1 class="date-and-time" :key="currentDayOffset">
         <span v-text="whichDay"></span> at Healthcare Packaging EXPO
       </h1>
-      <div class="hcp-logo">
-        <img src="/logo.png" />
-      </div>
+    </transition>
+    <div class="hcp-logo">
+      <img src="/logo.png" />
+    </div>
   </div>
 </template>
 

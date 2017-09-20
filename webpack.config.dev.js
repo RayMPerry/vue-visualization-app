@@ -59,6 +59,7 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: './src/*.html', to: './[name].[ext]' },
       { from: './src/**/*.csv', to: './[name].[ext]' },
+      { from: './src/**/*.ico', to: './[name].[ext]' },
       { from: './src/**/*.png', to: './[name].[ext]' }
     ])
   ],

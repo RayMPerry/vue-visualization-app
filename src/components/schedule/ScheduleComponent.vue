@@ -1,13 +1,15 @@
 <template>
-  <div class="schedule">
-    <div class="event" v-for="event in schedule" v-if="isEventToday(event[0])">
+  <transition name="fade" mode="out-in">
+    <div class="schedule" v-if="schedule" :key="currentDate">
+      <div class="event" v-for="(event, index) in currentSchedule" :key="index">
         <p class="event-time">
           <span class="event-begin-time" v-text="formatTime(event[1])"></span> - <span class="event-end-time" v-text="formatTime(event[2])"></span>
           <span class="event-details" v-text="event[3]"></span> (<span class="event-company" v-text="event[5]"></span>).
-            <span class="event-location" v-text="formatLocation(event[6])"></span>
+          <span class="event-location" v-text="formatLocation(event[6])"></span>
         </p>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -19,6 +21,7 @@ export default {
   computed: {
     ...mapState({
       currentDay: ({ MediaDashboardStore }) => MediaDashboardStore.currentDay,
+      currentDayOffset: ({ MediaDashboardStore }) => MediaDashboardStore.currentDayOffset,
       schedule: ({ ScheduleStore }) => ScheduleStore.schedule,
       scheduleFields: ({ ScheduleStore }) => ScheduleStore.scheduleFields,
       eventStartMonth: ({ MediaDashboardStore }) => MediaDashboardStore.startMonth,
@@ -31,6 +34,20 @@ export default {
         this.eventStartDay,
         this.eventStartYear
       ].join('/');
+    },
+    currentDate () {
+     return [
+        this.eventStartMonth,
+        parseInt(this.eventStartDay) + this.currentDayOffset,
+        this.eventStartYear
+      ].join('/');
+    },
+    currentSchedule () {
+      if (this.schedule) {
+        return this.schedule[this.currentDate];
+      } else {
+        return false;
+      }
     }
   },
   methods: {
@@ -62,7 +79,7 @@ export default {
       refreshSchedule: types.SCHEDULE_GET_CURRENT_SCHEDULE
     })
   },
-  mounted () {
+  created () {
     this.refreshSchedule();
     this.changeDate({date: '09/25/2017', origin: true});
     const tempMonth = this.eventStartMonth - 1;

@@ -32,12 +32,13 @@ export default {
 
 <style>
 .newsfeed {
-    padding: 20px;
+    padding: 0 20px;
     font-size: 26px;
-    background: #54C0A0;
     color: white;
     .news-item {
         margin: 0;
+        padding-top: 5px;
+        line-height: 1.1em;
     }
 }
 </style>
