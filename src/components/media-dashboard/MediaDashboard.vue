@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import * as types from '../../store/mutation-types';
 
 import ScheduleComponent from '../schedule/ScheduleComponent.vue';
@@ -41,10 +41,14 @@ export default {
   methods: {
     ...mapMutations({
       getTime: types.ADMIN_GET_TIME
+    }),
+    ...mapActions({
+      nextDay: types.ADMIN_ADVANCE_DATE
     })
   },
   mounted () {
     const self = this;
+    window.setInterval(self.nextDay, 13000);
 
     // This initializes the time.
     self.getTime();

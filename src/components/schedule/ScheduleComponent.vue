@@ -39,7 +39,7 @@ export default {
      return [
         parseInt(this.eventStartMonth),
         parseInt(this.eventStartDay) + this.currentDayOffset,
-        this.eventStartYear
+        this.eventStartYear - 2000
       ].join('/');
     }
   },

@@ -40,7 +40,11 @@ const mutations = {
     if (payload.origin) {
       state.startMonth = parsedDate[0];
       state.startDay = parsedDate[1];
-      state.startYear = parsedDate[2];
+      if (parseInt(parsedDate[2]) < 2000) {
+        state.startYear = parseInt(parsedDate[2]) + 2000;
+      } else {
+        state.startYear = parsedDate[2];
+      }
     }
   },
   [MEDIA_DASHBOARD_CHANGE_LAYOUT] (state, layout) {

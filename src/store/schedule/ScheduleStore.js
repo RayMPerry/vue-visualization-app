@@ -34,15 +34,23 @@ const actions = {
             results.data.map((event, idx, arr) => {
               const isValidDate = event[0].match(/[\d]*\/[\d]*\/[\d]*/);
               if (isValidDate[0] !== "") {
-                const eventDate = event[0];
+                let eventDate = event[0];
                 if (scheduleDates.indexOf(event[0]) < 0) {
+                  let splitEventDate = eventDate.split('/');
+                  let eventYear = parseInt(splitEventDate[2]);
+                  if (eventYear > 2000) {
+                    eventYear -= 2000;
+                  }
+                  splitEventDate[0] = parseInt(splitEventDate[0]);
+                  splitEventDate[2] = eventYear;
+                  eventDate = splitEventDate.join('/');
                   scheduleDates.push(eventDate);
                 }
                 
                 if (!newSchedule[eventDate] && typeof newSchedule[eventDate] !== 'object') {
                   newSchedule[eventDate] = [];
                 }
-                
+
                 newSchedule[eventDate].push(event);
               }
             });
