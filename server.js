@@ -41,8 +41,7 @@ const twitterHandlesToFollow = [
   '@Packcentric',
   '@PackagingDr',
   '@packagingtrends',
-  '@healthcarepkg',
-  '@RaycatRakittra'
+  '@healthcarepkg'
 ];
 
 const twitterKeywordsToFollow = [

@@ -56,10 +56,17 @@ const mutations = {
 };
 const getters = {};
 const actions = {
-  [ADMIN_ADVANCE_DATE] ({ state, commit }) {
+  [ADMIN_ADVANCE_DATE] ({ rootState, state, commit }) {
     state.currentDayOffset++;
 
-    if (state.currentDayOffset > 2) {
+    const schedule = rootState.ScheduleStore.schedule;
+    const currentDate = [
+      parseInt(state.startMonth),
+      parseInt(state.startDay) + state.currentDayOffset,
+      state.startYear - 2000,
+    ].join('/');
+    
+    if (!schedule[currentDate] || schedule[currentDate].length < 0 || state.currentDayOffset > 2) {
       state.currentDayOffset = 0;
     }
     

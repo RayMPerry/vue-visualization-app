@@ -22,7 +22,7 @@
   import io from 'socket.io-client';
 import * as types from '../../store/mutation-types';
 
-const socketHost = 'http://127.0.0.1';
+const socketHost = 'http://ec2-34-230-87-72.compute-1.amazonaws.com';
 const socketPort = 6465;
 
 export default {
@@ -37,7 +37,7 @@ export default {
     })
   },
   created () {
-    const socket = io(socketHost + ':' + socketPort);
+    const socket = io.connect(socketHost + ':' + socketPort);
     socket.on('action', action => {
       this.addTweet(action.data);
     });

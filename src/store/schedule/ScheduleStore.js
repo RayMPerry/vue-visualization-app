@@ -33,7 +33,7 @@ const actions = {
 
             results.data.map((event, idx, arr) => {
               const isValidDate = event[0].match(/[\d]*\/[\d]*\/[\d]*/);
-              if (isValidDate[0] !== "") {
+              if (isValidDate && isValidDate[0] !== "") {
                 let eventDate = event[0];
                 if (scheduleDates.indexOf(event[0]) < 0) {
                   let splitEventDate = eventDate.split('/');
