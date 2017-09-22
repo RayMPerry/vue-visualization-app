@@ -16,6 +16,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import * as types from '../../store/mutation-types';
 import * as constants from '../../constants';
+import moment from 'moment';
 
 export default {
   computed: {
@@ -81,7 +82,8 @@ export default {
   },
   created () {
     this.refreshSchedule();
-    this.changeDate({date: '09/25/17', origin: true});
+    const currentDate = moment().format('MM/DD/YY');
+    this.changeDate({date: currentDate, origin: true});
     const tempMonth = this.eventStartMonth - 1;
     const tempDay = parseInt(this.eventStartDay) + 2;
     let tempLongDay = new Date(this.eventStartYear, tempMonth, tempDay).getDay();

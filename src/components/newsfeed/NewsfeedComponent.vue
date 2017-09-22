@@ -32,10 +32,15 @@ export default {
 
 <style>
 .newsfeed {
+    position: absolute;
     padding: 0 20px;
+    height: 100%;
     font-size: 26px;
     color: white;
+    display: table;
     .news-item {
+        display: table-cell;
+        vertical-align: middle;
         margin: 0;
         padding-top: 5px;
         line-height: 1.1em;

@@ -1,11 +1,11 @@
 <template>
-  <div class="footer" @click="nextDay()">
+  <div class="footer-component">
     <transition name="fade" mode="out-in">
       <h1 class="date-and-time" :key="currentDayOffset">
         <span v-text="whichDay"></span> at Healthcare Packaging EXPO
       </h1>
     </transition>
-    <div class="hcp-logo">
+    <div class="hcp-logo" @click="nextDay()">
       <img src="/logo.png" />
     </div>
   </div>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      nextDay: types.ADMIN_ADVANCE_DATE
+      nextDay: types.ADMIN_UPDATE
     })
   }
 }
@@ -57,23 +57,30 @@ export default {
 $headline-fonts: 'Roboto', sans-serif;
 $body-fonts: 'Open Sans', sans-serif;
 
-.footer {
+.footer-component {
     font-family: $headline-fonts;
+    display: table;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    padding: 0 20px;
     .clock {
         float: right;
     }
 
     .date-and-time {
-        float: left;
+        display: table-cell;
+        vertical-align: middle;
+        width: 90%;
     }
     
     .hcp-logo {
-        float: right;
+        display: table-cell;
         width: 10%;
-        height: 90%;
+        height: 10%;
         img {
+            padding: 5px 10px;
             width: 100%;
-            height: 100%;
         }
     }
 }

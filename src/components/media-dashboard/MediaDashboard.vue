@@ -1,6 +1,8 @@
 <template>
   <div :class="currentLayout">
-    <footer-component></footer-component>
+    <div class="footer">
+      <footer-component></footer-component>
+    </div>
     <div class="one">
       <schedule-component></schedule-component>
     </div>
@@ -123,7 +125,7 @@ body {
             top: 10%;
             left: 0;
             width: 75%;
-            height: 75%;
+            height: 80%;
         }
         .two {
             top: 10%;
@@ -133,6 +135,7 @@ body {
             background: #aaa;
         }
         .three {
+            position: relative;
             top: 90%;
             width: 75%;
             height: 10%;
@@ -146,8 +149,6 @@ body {
             top: 0;
             width: 100%;
             height: 10%;
-            padding: 0 20px;
-            vertical-align: middle;
         }
     }
 

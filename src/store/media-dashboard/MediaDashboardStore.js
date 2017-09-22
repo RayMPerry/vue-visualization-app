@@ -1,5 +1,6 @@
 import {
   ADMIN_ADVANCE_DATE,
+  ADMIN_UPDATE,
   ADMIN_CHANGE_DATE,
   ADMIN_GET_TIME,
   MEDIA_DASHBOARD_CHANGE_LAYOUT,
@@ -77,6 +78,14 @@ const actions = {
     ].join('/');
     commit(ADMIN_CHANGE_DATE, {date: newDate});
   },
+  [ADMIN_UPDATE] ({ commit }) {
+    const newDate = [
+      state.startMonth,
+      parseInt(state.startDay) + 1,
+      state.startYear
+    ].join('/');
+    commit(ADMIN_CHANGE_DATE, {date: newDate, origin: true});
+  }
 };
 
 export default {
