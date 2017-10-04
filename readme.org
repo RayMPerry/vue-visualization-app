@@ -65,11 +65,12 @@
    For non-technical users, there aren't many inputs for you. This is one of those "set it and forget it" projects. For best results, you'll want to keep one tab on the site and another tab for the administrative endpoint (located at /admin). The administrative endpoint has exactly two upload inputs. They accept CSVs in the following formats:<<formats>>
 *** Schedule CSV Format
     If you are trying to upload a schedule:
-    - 24-hour times, please. The application will handle the string conversion.
-    - No emojis, no greek letters, no em-dashes.
 
     #+NAME: schedule-csv-format
     #+BEGIN_EXAMPLE
+    - 24-hour times, please. The application will handle the string conversion.
+    - No emojis, no greek letters, no em-dashes.
+
       [Date] - (MM/DD/YYYY) - Day of the event.
       [Start Time] - (HH:MM) - Time the event starts.
       [End Time] - (HH:MM) - Time the event ends.
