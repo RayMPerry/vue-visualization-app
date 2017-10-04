@@ -66,6 +66,7 @@
 *** Schedule CSV Format
     If you are trying to upload a schedule:
 
+    <<scf>>
     #+NAME: schedule-csv-format
     #+BEGIN_EXAMPLE
     - 24-hour times, please. The application will handle the string conversion.
@@ -104,6 +105,7 @@
 
 ** Technical Usage
    For developers, there's a lot of piecemeal happening under the hood as a result of my frantic rush to finish this. (Sorry.) Even though I said it was optional before, I'm suggesting that you download [[http://pm2.keymetrics.io/][PM2]]. There is a cron job that needs to be added and PM2 makes it easier. The cron job is:
+   <<ncj>>
    #+NAME: nightly-cron-job
    #+BEGIN_SRC shell
      0 0 * * * pm2 restart server
@@ -119,7 +121,7 @@
 *** You uploaded the wrong CSV to the wrong component.
     *The fix:* Please ensure that you are uploading the correct CSV to the correct upload input. There is no flexibility for formats in this application.
 *** You uploaded a properly-formatted CSV too early.
-    This is an easy "gotcha". Currently, the application only understands the convention as a three-day event. As a result, the header (technically, the footer) displays "Today", "Tomorrow", or the day of the week two days in the future. If the application doesn't recognize your event's date or your event's date is more that two days in the future, it will not appear. *The fix:* You actually don't have to do anything if the dates are [[schedule-csv-format][properly formatted]]. You can just let the application run and it will automatically update. If the dates aren't properly formatted, please correct them and re-upload your CSV.
+    This is an easy "gotcha". Currently, the application only understands the convention as a three-day event. As a result, the header (technically, the footer) displays "Today", "Tomorrow", or the day of the week two days in the future. If the application doesn't recognize your event's date or your event's date is more that two days in the future, it will not appear. *The fix:* You actually don't have to do anything if the dates are [[scf][properly formatted]]. You can just let the application run and it will automatically update. If the dates aren't properly formatted, please correct them and re-upload your CSV.
 ** Twitter isn't updating!
    This is more than likely due to the application hitting the API request limit. IIRC, it's something to the tune of =15 API requests per 15 minutes=. Give the application a moment to catch up.
 
@@ -139,7 +141,7 @@
 *** Misnamed variables
     There are a lot of misnamed variables surrounding the date(s). At some point, you should make distinct names for each one. Just ensure you understand what it's being used for.
 *** advanceDate()/advanceDay()/nextDay() does not advance application's date
-    IIRC, these functions change specific variables related to the date but not the date the application needs to recalculate the longform days ("Today", "Tomorrow", <DAY OF THE WEEK>). As a result, the server is [[nightly-cron-job][restarted every night at midnight]] to recalculate those days.
+    IIRC, these functions change specific variables related to the date but not the date the application needs to recalculate the longform days ("Today", "Tomorrow", <DAY OF THE WEEK>). As a result, the server is [[ncj][restarted every night at midnight]] to recalculate those days.
 ** Simple/Low
 *** Add style to the administrative endpoint.
     They're single-file components. Shouldn't be hard to design something better than two input boxes.
