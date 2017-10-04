@@ -1,0 +1,161 @@
+#+TITLE: HCP Schedule Wall
+#+AUTHOR: Ray Perry
+#+EMAIL: rperry@pmmimediagroup.com
+
+* Introduction
+  /HCP Schedule Wall/ is meant to be displayed on large show monitors. While the majority of the application was made to be responsive, I can't guarantee the layout will be perfect on every device. It simply was not thoroughly tested and was played "fast and loose" across three weeks. It was originally called Media Center because it was supposed to be an generic holder for all types of web-based media. [[improvements][More on that below]].
+
+** Technologies
+   The front-end technologies used are:
+   + [[https://router.vuejs.org/en/][Vue-Router]]
+   + [[https://vuex.vuejs.org/en/][Vuex]]
+   + [[https://github.com/axios/axios][axios]]
+   + [[https://vuejs.org/v2/api/][Vue]]
+   + [[https://www.typescriptlang.org/docs/handbook/tsconfig-json.html][TypeScript (tsconfig.json)]] [fn:1]
+   + [[https://webpack.js.org/][Webpack]]
+   + [[https://yarnpkg.com/en/][Yarn]]
+
+   The back-end technologies used are:
+   + [[https://nodejs.org/en/][Node.js]]
+   + [[https://socket.io/][socket.io]]
+   + [[https://github.com/ttezel/twit][twit]]
+   + [[http://papaparse.com/][Papa Parse]]
+   + [[https://momentjs.com/][Moment.js]]
+
+** Prerequisites
+   As of this writing, /HCP Schedule Wall/ was built on Node 8.5.0 and whichever NPM comes with that. It's /strongly recommended/ that you use some type of Node version manager for this. [[https://github.com/creationix/nvm][nvm]] is a solid choice for this. 
+
+   /HCP Schedule Wall/ also requires a redirect using ~iptables~. Run the following command:
+   #+BEGIN_SRC shell
+     iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 6464
+   #+END_SRC
+   *Explanation:*
+   ~-t nat~ is declaring the table to affect.
+   ~-A PREROUTING~ is declaring the rule to append to.
+   ~-i eth0~ is declaring the interface.
+   ~-p tcp~ is declaring the protocol.
+   ~--dport 80~ is declaring the destination port.
+   ~-j REDIRECT~ is declaring the type of jump to occur when a packet matches the rule.
+   ~--to-port 6464~ is declaring the source port.
+
+** Installation
+   If you don't have Yarn installed,
+   #+BEGIN_SRC shell
+     npm install -g yarn
+   #+END_SRC
+
+   Optionally, you can use a process manager like [[http://pm2.keymetrics.io/][PM2]] to handle signals and automatic rebooting,
+   #+BEGIN_SRC shell
+     npm install -g pm2
+   #+END_SRC
+
+   If you have Yarn installed,
+   #+BEGIN_SRC shell
+     git clone "<<the main repo>>"
+     cd "<<the repo directory>>"
+     yarn install
+     YEAR=<<the current year>> node server.js
+   #+END_SRC
+
+** Verification
+   Once all of these commands have been run without error, accessing the EC2 instance from its public DNS address should show the main view.
+
+* Usage
+** General Usage
+   For non-technical users, there aren't many inputs for you. This is one of those "set it and forget it" projects. For best results, you'll want to keep one tab on the site and another tab for the administrative endpoint (located at /admin). The administrative endpoint has exactly two upload inputs. They accept CSVs in the following formats:<<formats>>
+*** Schedule CSV Format
+    If you are trying to upload a schedule:
+    - 24-hour times, please. The application will handle the string conversion.
+    - No emojis, no greek letters, no em-dashes.
+
+    #+NAME: schedule-csv-format
+    #+BEGIN_EXAMPLE
+      [Date] - (MM/DD/YYYY) - Day of the event.
+      [Start Time] - (HH:MM) - Time the event starts.
+      [End Time] - (HH:MM) - Time the event ends.
+      [Details] - (Freeform) - Headline for the event.
+      [Presenter] - (Freeform) - Name of the presenter.
+      [Presenter Company] - (Freeform) - Name of the company the presenter represents.
+      [Location] - (Freeform) - Name of the event location.
+    #+END_EXAMPLE
+
+    #+NAME: schedule-csv-format-example
+    #+BEGIN_EXAMPLE
+      Date,Start Time,End Time,Details,Presenter,Presenter Company,Location
+      09/25/2017,10:00,10:30,Serialization for late starters: inc. industry research results and global implementation case study ,Carlos Machado,SEA Vision,Innovation Stage | N-601 Healthcare Packaging EXPO
+      09/25/2017,11:00,11:30,When Traceability Meets Industry 4.0 -  Supply Chain Visibility for Ultimate Empowerment ,Yanik Beaulieu,OPTEL Group,Innovation Stage | N-601 Healthcare Packaging EXPO
+    #+END_EXAMPLE
+
+*** Factoids/Fun Facts CSV Format
+    If you're trying to upload fun facts and factoids:
+    #+NAME: facts-csv-format
+    #+BEGIN_EXAMPLE
+      [Description] – (Freeform) – The fact itself.
+    #+END_EXAMPLE
+
+    #+NAME: facts-csv-format-example
+    #+BEGIN_EXAMPLE
+      Description
+      10% of pre-registered attendees are in the life sciences
+      35% of pre-registered attendees are new to PACK EXPO/Healthcare Packaging EXPO
+    #+END_EXAMPLE
+    As an aside, please ensure that you are uploading the proper file to the proper place. The application will /unapologetically/ fail and it will not display anything for the component you were trying to update. 
+
+** Technical Usage
+   For developers, there's a lot of piecemeal happening under the hood as a result of my frantic rush to finish this. (Sorry.) Even though I said it was optional before, I'm suggesting that you download [[http://pm2.keymetrics.io/][PM2]]. There is a cron job that needs to be added and PM2 makes it easier. The cron job is:
+   #+NAME: nightly-cron-job
+   #+BEGIN_SRC shell
+     0 0 * * * pm2 restart server
+   #+END_SRC
+   To clarify, this cron job restarts the server every night at midnight. Why? I named too many functions advanceDate/advanceDay/nextDay and none of them /actually/ advance the date of the application. By restarting, the server will set the date to the current day and build its stores up from there.
+
+** Detailed Explanation
+* Troubleshooting
+** Nothing is showing up for the schedule or the fun facts!
+   This can happen for a combination of reasons. It could be:
+*** You uploaded a malformed CSV.
+    *The fix:* Please ensure that you followed the correct format [[formats][as seen above]].
+*** You uploaded the wrong CSV to the wrong component.
+    *The fix:* Please ensure that you are uploading the correct CSV to the correct upload input. There is no flexibility for formats in this application.
+*** You uploaded a properly-formatted CSV too early.
+    This is an easy "gotcha". Currently, the application only understands the convention as a three-day event. As a result, the header (technically, the footer) displays "Today", "Tomorrow", or the day of the week two days in the future. If the application doesn't recognize your event's date or your event's date is more that two days in the future, it will not appear. *The fix:* You actually don't have to do anything if the dates are [[schedule-csv-format][properly formatted]]. You can just let the application run and it will automatically update. If the dates aren't properly formatted, please correct them and re-upload your CSV.
+** Twitter isn't updating!
+   This is more than likely due to the application hitting the API request limit. IIRC, it's something to the tune of =15 API requests per 15 minutes=. Give the application a moment to catch up.
+
+* Improvements<<improvements>>[fn:2]
+  The original intent for this application was to be a generic media center for all types of web-based content but I simply didn't have the time to think about proper architecture. There are a few variables in the code that hint at that. I've listed some of the shortcomings of the application below. Feel free to take them into consideration when refactoring this.
+** Missteps and Compromises
+*** Administrative endpoint is brutalistic at best
+    This was completely my fault. I underestimated the time it took to upload a file from the web browser and a deadline snuck up on me. Plain and simple.
+*** No proper configuration file
+    All of the dates and magic numbers should really be in a config file. I think I had plans for that in the very beginning but - like most rushed projects - code quality suffers in an effort to get the product out the door.
+*** Environment variables and keys exposed to public
+    *YEAH.* Sorry about that; they're even in the repo (even though it's a private repo). At some point, you should regenerate those keys, put them in a ~.env~ file, and read from that. Just remember to add that file to the ~.gitignore~.
+*** Files are not automatically renamed
+    I'm actually not sure; I've never checked this. I think the current functionality creates new ~scheduleXXXX.csv~ and ~newsfeedXXXX.csv~ per year if they don't exist and overwrite them if they do.
+*** Magic numbers
+    They are everywhere. Move them to the configuration file if you make one.
+*** Misnamed variables
+    There are a lot of misnamed variables surrounding the date(s). At some point, you should make distinct names for each one. Just ensure you understand what it's being used for.
+*** advanceDate()/advanceDay()/nextDay() does not advance application's date
+    IIRC, these functions change specific variables related to the date but not the date the application needs to recalculate the longform days ("Today", "Tomorrow", <DAY OF THE WEEK>). As a result, the server is [[nightly-cron-job][restarted every night at midnight]] to recalculate those days.
+** Simple/Low
+*** Add style to the administrative endpoint.
+    They're single-file components. Shouldn't be hard to design something better than two input boxes.
+*** Write to a single file per component.
+    This is pretty optional. Thinking on it a bit, I'm pretty sure you don't want to overwrite only one file.
+** Intermediate/Moderate
+*** Extract variables and create configuration file.
+    This isn't hard as much as it is tedious. Perservere.
+*** Move magic numbers into configuration file.
+*** Rename the misleading variables and functions.
+** Intricate/High
+*** Advance the application's date automatically.
+    Again, there are a lot of bad decisions in this code. If you decide to tackle this, make sure you understand how the dates work and are calculated. It's so easy to get lost in there, even if you do understand the code in a vacuum.
+
+* Closing Notes
+  There were a lot of missteps and shifting sands. However, when it came time to show it off, it worked flawlessly. Remember when you're working on this: the small victories are still victories. Good luck and godspeed.
+
+* Footnotes
+[fn:1] Technically, only ~ts-loader~ is used, which is a Webpack loader that lets us use TypeScript syntax in the code.
+[fn:2] Based on general complexity (assuming mid-level developer experience). This is a subjective measure and should be taken with a grain of salt.
